@@ -1,0 +1,100 @@
+body {
+    background-color: #1b2838;
+}
+
+.App {
+    margin-top: 25px;
+  text-align: center;
+}
+
+.loading {
+  animation: spin infinite 10s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#friends-list {
+    background-color: rgba( 84, 133, 183, 0.2);
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.checked img{
+    background-color: rgba( 117, 204, 255, 0.3);
+}
+
+label img {
+    padding: 8px;
+}
+
+.friend {
+    padding-left: 0px;
+}
+
+#games-list {
+    padding:0px;
+}
+
+.game {
+    position: relative;
+    min-height: 84px;
+    margin-bottom: 15px;
+    padding: 8px 1%;
+    font-size: 11px;
+    color: #56707f;
+    background-color: rgba( 84, 133, 183, 0.2);
+    display: block;
+}
+
+.game:hover {
+    background-color: rgba( 117, 204, 255, 0.3);
+}
+
+.game-title {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: normal;
+    font-family: "Motiva Sans", Sans-serif;
+    font-weight: 300;
+    color: #ffffff;
+}
+
+.game-image {
+    float: left;
+    width: 184px;
+    margin-right: 20px;
+}
+
+#games-list p {
+    color: #56707f;
+}
+
+@media only screen and (max-device-width:480px){
+       /* styles for mobile browsers smaller than 480px; (iPhone) */
+       .game-title {
+           display: block;
+           text-align: center;
+           margin-top: 20px;
+       }
+       .game-image {
+           float: none;
+           margin-left: auto;
+           margin-right: auto;
+       }
+
+    }
