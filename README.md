@@ -1,4 +1,4 @@
-Steam Game Collection
+Steam Collection Intersection
 ================
 This will determine which games you have in common with your selected friends and return a list of games. Simply click on one of the games to launch it in steam.
 
