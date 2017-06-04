@@ -1,10 +1,10 @@
 Steam Collection Intersection
 ================
-This will determine which games you have in common with your selected friends and return a list of games. Simply click on one of the games to launch it in steam.
+This will determine which games you have in common with your selected friends and return a list of games. Click on one of the games to launch it in Steam.
 
 How to run
 ==========
-1. Get an API key from Steam and put it in a new Secrets.js file.
+1. Get an API key from Steam and put it in a new ApiKey.js file.
 2. Download an extension for Chrome/Firefox that allows cross-origin calls. This will be fixed in a future revision.
 3. Run `npm start`
 
