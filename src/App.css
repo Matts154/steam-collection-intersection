@@ -29,12 +29,16 @@ body {
 }
 
 #friends-list {
+    display: inline-flex;
     background-color: rgba( 84, 133, 183, 0.2);
     padding: 20px;
     margin-bottom: 10px;
+    flex-flow: row wrap;
+    justify-content: space-around;
+
 }
 
-.checked img{
+.checked img {
     background-color: rgba( 117, 204, 255, 0.3);
 }
 
@@ -43,22 +47,46 @@ label img {
 }
 
 .friend {
-    padding-left: 0px;
+    margin: 0px;
+    flex: 0 0 auto;
+    align-self: stretch;
 }
 
 #games-list {
-    padding:0px;
+    display: block;
+    padding: 0px;
+    text-align: left;
+    width: 100%;
+}
+
+#games {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+#games > div:nth-of-type(2n-1) .game {
+    margin-right: 10px;
+}
+
+#games > div {
+    width:50%;
 }
 
 .game {
-    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     min-height: 84px;
     margin-bottom: 15px;
     padding: 8px 1%;
     font-size: 11px;
     color: #56707f;
     background-color: rgba( 84, 133, 183, 0.2);
-    display: block;
+    flex-basis: auto;
+    order: 1;
+    flex: 1;
 }
 
 .game:hover {
@@ -77,7 +105,7 @@ label img {
 .game-image {
     float: left;
     width: 184px;
-    margin-right: 20px;
+    margin: 0px 20px 0px 5px;
 }
 
 #games-list p {
@@ -86,6 +114,20 @@ label img {
 
 @media only screen and (max-device-width:480px){
        /* styles for mobile browsers smaller than 480px; (iPhone) */
+       #games {
+           width: 100%;
+           display: block;
+       }
+
+       #games > div {
+           width: 100%;
+       }
+
+       #games > div:nth-of-type(2n-1) .game {
+           margin-right: 0px;
+       }
+
+
        .game-title {
            display: block;
            text-align: center;
