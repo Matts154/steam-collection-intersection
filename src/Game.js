@@ -8,7 +8,7 @@ class Game extends Component {
 		// const name = this.props.game.name;
 		const href = this.props.game.img_logo_url ? `http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${this.props.game.img_logo_url}.jpg` : "./img/default.png";
 		return (
-			<div id={appid} className="col-md-6">
+			<div id={appid}>
 				<a className="game" href={`steam://run/${appid}`}>
 					<div className="game-image">
 						<img src={href} alt={name} className=""/>
