@@ -119,7 +119,7 @@ label img {
     color: #56707f;
 }
 
-@media (max-device-width:480px) {
+@media (max-width:480px) {
        /* styles for mobile browsers smaller than 480px; (iPhone) */
        #games {
            width: 100%;
