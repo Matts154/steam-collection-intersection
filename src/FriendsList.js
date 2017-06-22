@@ -11,7 +11,9 @@ class FriendsList extends Component {
 
 		return this.props.friends.length > 0 ? (
 			<div id="friends-list">
-				{friendComponents}
+				<div className="friends-wrapper">
+					{friendComponents}
+				</div>
 			</div>
 		) : (<div></div>);
 	}
