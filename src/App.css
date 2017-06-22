@@ -33,6 +33,10 @@ body {
     margin-right: auto;
 }
 
+#user {
+    margin-bottom: 20px;
+}
+
 #friends-list {
     background-color: rgba( 84, 133, 183, 0.2);
     padding: 20px;
