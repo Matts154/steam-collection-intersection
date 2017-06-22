@@ -28,14 +28,45 @@ body {
   to { transform: rotate(360deg); }
 }
 
+.app-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#user {
+    margin-bottom: 20px;
+}
+
 #friends-list {
-    display: inline-flex;
     background-color: rgba( 84, 133, 183, 0.2);
     padding: 20px;
     margin-bottom: 10px;
-    flex-flow: row wrap;
-    justify-content: space-around;
+    width:100%;
+}
 
+.friends-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+@media (min-width:768px) and (max-width:980px) {
+    .app-container {
+        width: 680px;
+    }
+}
+
+@media (min-width:980px) and (max-width:1280px) {
+    .app-container {
+        width: 920px;
+    }
+}
+
+@media (min-width:1280px) {
+    .app-container {
+        width: 1240px;
+    }
 }
 
 .checked img {
@@ -44,12 +75,6 @@ body {
 
 label img {
     padding: 8px;
-}
-
-.friend {
-    margin: 0px;
-    flex: 0 0 auto;
-    align-self: stretch;
 }
 
 #games-list {
@@ -66,7 +91,7 @@ label img {
     justify-content: flex-start;
 }
 
-#games > div:nth-of-type(2n-1) .game {
+#games > div:nth-of-type(odd) .game {
     margin-right: 10px;
 }
 
@@ -123,7 +148,7 @@ label img {
            width: 100%;
        }
 
-       #games > div:nth-of-type(2n-1) .game {
+       #games > div:nth-of-type(odd) .game {
            margin-right: 0px;
        }
 
@@ -137,6 +162,10 @@ label img {
            float: none;
            margin-left: auto;
            margin-right: auto;
+       }
+
+       .friends-wrapper {
+           justify-content: center;
        }
 
     }
