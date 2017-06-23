@@ -14,7 +14,7 @@ class Pagination extends Component {
 	}
 
 	componentWillUpdate(nextProps, nextState) {
-		if (nextProps.children.length != this.props.children.length) {
+		if (nextProps.children.length !== this.props.children.length) {
 			this.setState(
 				Object.assign({}, this.state, {page: 1})
 			);
