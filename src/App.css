@@ -1,26 +1,10 @@
 body {
-    background-color: #1b2838;
-}
-
-.App {
-    margin-top: 25px;
-  text-align: center;
+    background-color: #141e2a;
 }
 
 .loading {
   animation: spin infinite 10s linear;
   height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
 }
 
 @keyframes spin {
@@ -31,6 +15,9 @@ body {
 .app-container {
     margin-left: auto;
     margin-right: auto;
+    padding: 25px 15px;
+    background-color: #1b2838;
+    text-align: center;
 }
 
 #user {
@@ -73,31 +60,29 @@ label img {
     justify-content: flex-start;
 }
 
-#games > div:nth-of-type(odd) .game {
-    margin-right: 10px;
+.game-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba( 84, 133, 183, 0.2);
+    padding: 8px;
+    height:100%;
 }
 
-#games > div {
-    width:50%;
+.game-container:hover {
+    background-color: rgba( 117, 204, 255, 0.3);
+}
+
+.game:nth-child(odd) .game-container {
+    margin-right: 10px;
 }
 
 .game {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    min-height: 84px;
-    margin-bottom: 15px;
-    padding: 8px 1%;
-    font-size: 11px;
     color: #56707f;
-    background-color: rgba( 84, 133, 183, 0.2);
-    flex-basis: auto;
-    order: 1;
-    flex: 1;
-}
-
-.game:hover {
-    background-color: rgba( 117, 204, 255, 0.3);
+    width: 50%;
+    margin-bottom: 10px;
 }
 
 .game-title {
@@ -107,16 +92,22 @@ label img {
     font-family: "Motiva Sans", Sans-serif;
     font-weight: 300;
     color: #ffffff;
+    width:100%;
+    padding: 0px 5px;
 }
 
-.game-image {
-    float: left;
+.game img {
     width: 184px;
+    flex-shrink: 0;
     margin: 0px 20px 0px 5px;
 }
 
 #games-list p {
     color: #56707f;
+}
+
+.btn-play {
+    font-weight: bold;
 }
 
 @media (max-width:480px) {
@@ -126,11 +117,17 @@ label img {
            display: block;
        }
 
-       #games > div {
+       .game {
+           display: block;
            width: 100%;
        }
 
-       #games > div:nth-of-type(odd) .game {
+       .game-container {
+           flex-flow: column nowrap;
+           justify-content: center;
+       }
+
+       .game:nth-child(odd) .game-container {
            margin-right: 0px;
        }
 
@@ -139,8 +136,8 @@ label img {
            text-align: center;
            margin-top: 20px;
        }
-       .game-image {
-           float: none;
+
+       .game img {
            margin-left: auto;
            margin-right: auto;
        }
@@ -151,10 +148,10 @@ label img {
 
 }
 
-@media (min-width:480px) and (max-width:767px) {
+@media (min-width:480px) and (max-width:766px) {
 
     .app-container { /* 5 friends per row */
-        width: 440px;
+        width: 390px;
     }
 
     #games {
@@ -162,11 +159,17 @@ label img {
         display: block;
     }
 
-    #games > div {
+    .game {
+        display: block;
         width: 100%;
     }
 
-    #games > div:nth-of-type(odd) .game {
+    .game-container {
+        flex-flow: column nowrap;
+        justify-content: center;
+    }
+
+    .game:nth-child(odd) .game-container {
         margin-right: 0px;
     }
 
@@ -175,27 +178,36 @@ label img {
         text-align: center;
         margin-top: 20px;
     }
-    .game-image {
-        float: none;
+
+    .game img {
         margin-left: auto;
         margin-right: auto;
     }
 }
 
-@media (min-width:767px) and (max-width:980px) {
+@media (min-width:767px) and (max-width:991px) {
     .app-container {
-        width: 680px;
+        width: 710px;
+    }
+
+    .game-title {
+        text-align: center;
+    }
+
+    .game-container {
+        flex-flow: column nowrap;
+        justify-content: center;
     }
 }
 
-@media (min-width:980px) and (max-width:1280px) {
+@media (min-width:992px) and (max-width:1280px) {
     .app-container {
-        width: 920px;
+        width: 950px;
     }
 }
 
 @media (min-width:1280px) {
     .app-container {
-        width: 1240px;
+        width: 1190px;
     }
 }
