@@ -164,7 +164,7 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App app-container">
+            <div className="app-container">
                 <div id="user">
                     <img className="row" style={{marginLeft:"auto", marginRight:"auto"}} src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
                     <br />
