@@ -17,11 +17,11 @@ body {
     margin-right: auto;
     padding: 25px 15px;
     background-color: #1b2838;
-    text-align: center;
 }
 
 #user {
     margin-bottom: 20px;
+    text-align: center;
 }
 
 #friends-list {
@@ -108,6 +108,27 @@ label img {
 
 .btn-play {
     font-weight: bold;
+}
+
+.pagination {
+    display: block;
+}
+
+.page-number-list {
+    margin: 10px 0px;
+}
+
+.page-number {
+    margin-right: 5px;
+    padding: 5px;
+    width: 30px;
+    color: white;
+    font-weight: bold;
+    background-color: rgba( 84, 133, 183, 0.2);
+    text-decoration: none;
+    list-style: none;
+    text-align: center;
+    cursor: pointer;
 }
 
 @media (max-width:480px) {
