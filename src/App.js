@@ -122,7 +122,7 @@ class App extends Component {
         const options = {
             method: 'GET'
         };
-        
+
         clearTimeout(this.delay);
         this.delay = setTimeout(() => {
             // Get the steamid based on their username
@@ -160,10 +160,12 @@ class App extends Component {
     }
 
     render() {
+        const userImageStyle = this.state.user.avatarmedium ? {} : {display: "none"};
+
         return (
             <div className="app-container">
                 <div id="user">
-                    <img src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
+                    <img style={userImageStyle} src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
                     <input onChange={this.resolveUserInfo.bind(this)} placeholder="Username"/>
                 </div>
                 <FriendsList
