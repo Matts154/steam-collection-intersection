@@ -164,7 +164,6 @@ class App extends Component {
             <div className="app-container">
                 <div id="user">
                     <img src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
-                    <br />
                     <input onChange={this.resolveUserInfo.bind(this)} placeholder="Username"/>
                 </div>
                 <FriendsList
