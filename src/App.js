@@ -122,7 +122,7 @@ class App extends Component {
         const options = {
             method: 'GET'
         };
-        var steamid = null;
+        
         clearTimeout(this.delay);
         this.delay = setTimeout(() => {
             // Get the steamid based on their username
