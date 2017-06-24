@@ -166,9 +166,9 @@ class App extends Component {
         return (
             <div className="app-container">
                 <div id="user">
-                    <img className="row" style={{marginLeft:"auto", marginRight:"auto"}} src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
+                    <img src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
                     <br />
-                    <input className="row" style={{marginLeft:"auto", marginRight:"auto"}} onChange={this.resolveUserInfo.bind(this)} placeholder="Username"/>
+                    <input onChange={this.resolveUserInfo.bind(this)} placeholder="Username"/>
                 </div>
                 <FriendsList
                     friends={this.state.friends}

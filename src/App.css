@@ -13,19 +13,35 @@ body {
 }
 
 .app-container {
+    margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
-    padding: 25px 15px;
+    padding: 25px 15px 25px 15px;
     background-color: #1b2838;
 }
 
 #user {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    padding: 20px 0px;
+    background-color: rgba(84, 133, 183, 0.2);
     text-align: center;
+    /* flexbox */
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#user img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#user input {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #friends-list {
-    background-color: rgba( 84, 133, 183, 0.2);
+    background-color: rgba(84, 133, 183, 0.2);
     padding: 20px;
     margin-bottom: 10px;
     width:100%;
@@ -39,7 +55,7 @@ body {
 }
 
 .checked img {
-    background-color: rgba( 117, 204, 255, 0.3);
+    background-color: rgba(117, 204, 255, 0.3);
 }
 
 label img {
@@ -65,13 +81,13 @@ label img {
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba( 84, 133, 183, 0.2);
+    background-color: rgba(84, 133, 183, 0.2);
     padding: 8px;
     height:100%;
 }
 
 .game-container:hover {
-    background-color: rgba( 117, 204, 255, 0.3);
+    background-color: rgba(117, 204, 255, 0.3);
 }
 
 .game:nth-child(odd) .game-container {
@@ -124,7 +140,7 @@ label img {
     width: 30px;
     color: white;
     font-weight: bold;
-    background-color: rgba( 84, 133, 183, 0.2);
+    background-color: rgba(84, 133, 183, 0.2);
     text-decoration: none;
     list-style: none;
     text-align: center;
