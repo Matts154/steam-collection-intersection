@@ -22,7 +22,7 @@ class Friend extends Component {
 	render() {
 		const { friend } = this.props;
 		return (
-			<div className="col-md-1 col-sm-2 col-xs-3 friend">
+			<div className="friend">
 				<input id={friend.steamid} onChange={this.toggleCheck.bind(this)} type="checkbox" style={{display: "none"}} />
 				<label htmlFor={friend.steamid} className={this.state.checked ? "checked" : ""}>
 					<img src={friend.avatarmedium} alt={friend.personaname} title={friend.personaname} />

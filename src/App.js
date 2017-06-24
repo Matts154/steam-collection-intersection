@@ -4,8 +4,6 @@ import _ from 'lodash';
 import FriendsList from "./FriendsList";
 import GameList from "./GameList";
 
-import ApiKey from "./ApiKey";
-
 import './App.css';
 
 class App extends Component {
@@ -49,7 +47,7 @@ class App extends Component {
                 method: 'GET',
                 mode: 'cors'
             };
-            const url = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${ApiKey}&steamid=${friend.steamid}&include_appinfo=1&include_played_free_games=1&format=json`
+            const url = `https://steam-api-proxy.herokuapp.com/IPlayerService/GetOwnedGames/v0001/?steamid=${friend.steamid}&include_appinfo=1&include_played_free_games=1&format=json`
             fetch(url, options)
                 .then(this.checkStatus)
                 .then(this.getJSON)
@@ -122,22 +120,21 @@ class App extends Component {
     resolveUserInfo(event) {
         const eventVal = event.target.value;
         const options = {
-            method: 'GET',
-            mode: 'cors'
+            method: 'GET'
         };
         var steamid = null;
         clearTimeout(this.delay);
         this.delay = setTimeout(() => {
             // Get the steamid based on their username
-            fetch(`http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${ApiKey}&vanityurl=${eventVal}`, options)
+            fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/ResolveVanityURL/v0001/?vanityurl=${eventVal}`, options)
                 .then(this.checkStatus)
                 .then(this.getJSON)
                 .then(data => this.setState(Object.assign({}, this.state, {steamid: data.response.steamid})))
-                .then(() => { return fetch(`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${ApiKey}&steamid=${this.state.steamid}&relationship=friend`, options) })
+                .then(() => { return fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/GetFriendList/v0001/?steamid=${this.state.steamid}&relationship=friend`, options) })
                 .then(this.checkStatus)
                 .then(this.getJSON)
                 .then(data => data.friendslist.friends.map(friend => friend.steamid))
-                .then(friendIDs => { return fetch(`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${ApiKey}&steamids=${friendIDs.toString()}${"," + this.state.steamid}`, options) })
+                .then(friendIDs => { return fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/GetPlayerSummaries/v0002/?steamids=${friendIDs.toString()}${"," + this.state.steamid}`, options) })
                 .then(this.checkStatus)
                 .then(this.getJSON)
                 .then((data) => {
@@ -147,7 +144,7 @@ class App extends Component {
 
                     const friends = data.response.players;
                     // Get the users owned games
-                    fetch(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${ApiKey}&steamid=${this.state.steamid}&include_appinfo=1&include_played_free_games=1`, options)
+                    fetch(`https://steam-api-proxy.herokuapp.com/IPlayerService/GetOwnedGames/v0001/?steamid=${this.state.steamid}&include_appinfo=1&include_played_free_games=1`, options)
                         .then(this.checkStatus)
                         .then(this.getJSON)
                         .then((data) => {
@@ -164,11 +161,10 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App container">
+            <div className="app-container">
                 <div id="user">
-                    <img className="row" style={{marginLeft:"auto", marginRight:"auto"}} src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
-                    <br />
-                    <input className="row" style={{marginLeft:"auto", marginRight:"auto"}} onChange={this.resolveUserInfo.bind(this)} placeholder="Username"/>
+                    <img src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
+                    <input onChange={this.resolveUserInfo.bind(this)} placeholder="Username"/>
                 </div>
                 <FriendsList
                     friends={this.state.friends}
