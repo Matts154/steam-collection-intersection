@@ -4,9 +4,7 @@ This will determine which games you have in common with your selected friends an
 
 How to run
 ==========
-1. Get an API key from Steam and put it in a new ApiKey.js file.
-2. Download an extension for Chrome/Firefox that allows cross-origin calls. This will be fixed in a future revision.
-3. Run `npm start`
+1. Run `npm start`
 
 Todo
 ======
