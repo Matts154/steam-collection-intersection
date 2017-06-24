@@ -20,13 +20,14 @@ class Friend extends Component {
 	}
 
 	render() {
-		const { friend } = this.props;
+		const { steamid, avatarfull, personaname } = this.props.friend;
+
 		return (
 			<div className="friend">
-				<input id={friend.steamid} onChange={this.toggleCheck.bind(this)} type="checkbox" style={{display: "none"}} />
-				<label htmlFor={friend.steamid} className={this.state.checked ? "checked" : ""}>
-					<img src={friend.avatarmedium} alt={friend.personaname} title={friend.personaname} />
-					<h3 className="hidden">{friend.personaname}</h3>
+				<input id={steamid} onChange={this.toggleCheck.bind(this)} type="checkbox" style={{display: "none"}} />
+				<label htmlFor={steamid} className={this.state.checked ? "checked" : ""}>
+					<img src={avatarfull} alt={personaname} title={personaname} />
+					<h3 className="hidden">{personaname}</h3>
 				</label>
 			</div>
 		);
