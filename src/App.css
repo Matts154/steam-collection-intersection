@@ -56,7 +56,7 @@ body {
     justify-content: flex-start;
 }
 
-.checked img {
+.checked {
     background-color: rgba(117, 204, 255, 0.3);
 }
 
