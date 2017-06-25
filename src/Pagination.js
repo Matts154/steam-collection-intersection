@@ -41,6 +41,9 @@ class Pagination extends Component {
 				<div {...this.props}>
 					{this.props.children.slice((page - 1) * numPerPage, page * numPerPage)}
 				</div>
+				<div className="page-number-list">
+					{pageNumbers}
+				</div>
 			</div>
 		);
 	}
