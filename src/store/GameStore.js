@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { GAMES_CHANGED, FETCH_GAMES, FETCH_GAMES, RECEIVED_GAMES } from "../constant/Constants";
 import GameActions from "../action/GameActions";
-import * from "../FetchHelpers";
+import * from "../helpers/FetchHelpers";
 
 class GameStore extends EventEmitter {
     constructor() {

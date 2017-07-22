@@ -33,14 +33,10 @@ class App extends Component {
         return response.json()
     }
 
-    handleFriendSelection(event) {
-        const checked = event.target.checked;
-        const id = event.target.id;
+    handleFriendSelection(id, checked) {
         let friend = this.state.friends.find((f) => { return f.steamid === id });
         let selectedFriends = this.state.selectedFriends.slice();
         let sharedGames = [];
-
-        console.log("Checked:", checked);
 
         if(checked) { // Adding to selectedFriends
             const options = {
@@ -62,8 +58,6 @@ class App extends Component {
                             });
                         });
                     });
-
-                    console.log("Found games", sharedGames);
 
                     this.setState(
                         Object.assign(this.state, {

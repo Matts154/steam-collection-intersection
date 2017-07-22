@@ -9,27 +9,24 @@ class Friend extends Component {
 		}
 	}
 
-	toggleCheck(event) {
+	toggle(event) {
+		const { steamid } = this.props.friend;
+		const checked = !this.state.checked;
 		this.setState(
 			Object.assign(this.state, {
-				checked: event.target.checked
+				checked
 			})
 		)
 
-		this.props.handleClick(event);
+		this.props.handleClick(steamid, checked);
 	}
 
 	render() {
 		const { steamid, avatarfull, personaname } = this.props.friend;
+		const { checked } = this.state;
 
 		return (
-			<div className="friend">
-				<input id={steamid} onChange={this.toggleCheck.bind(this)} type="checkbox" style={{display: "none"}} />
-				<label htmlFor={steamid} className={this.state.checked ? "checked" : ""}>
-					<img src={avatarfull} alt={personaname} title={personaname} />
-					<h3 className="hidden">{personaname}</h3>
-				</label>
-			</div>
+			<img id={steamid} className={"friend" + (checked ? " checked" : "")} src={avatarfull} alt={personaname} title={personaname} onClick={this.toggle.bind(this)} />
 		);
 	}
 }

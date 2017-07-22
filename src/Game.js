@@ -10,7 +10,7 @@ class Game extends Component {
 			<div id={appid} className="game">
 				<div className="game-container">
 					<img src={href} alt={name}/>
-					<h4 className="game-title">{name}</h4>
+					<p className="game-title">{name}</p>
 					<a className="btn btn-success btn-play hidden-xs hidden-sm" href={`steam://run/${appid}`}>Play!</a>
 				</div>
 			</div>

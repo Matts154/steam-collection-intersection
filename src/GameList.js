@@ -25,7 +25,7 @@ class GameList extends Component {
 
 		return (
 			<div id="games-list">
-				<p>Number of games: {this.props.games.length}</p>
+				<p className="num-games">Number of games: {this.props.games.length}</p>
 				<Pagination id="games">
 					{gameComponents.slice((this.state.page-1) * this.state.pageSize, this.state.page * this.state.pageSize)}
 				</Pagination>
