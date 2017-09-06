@@ -3,7 +3,7 @@ export function checkStatus(response) {
 		return Promise.resolve(response);
 	} else {
 		return Promise.reject(
-			new Error(response.statusText);
+			new Error(response.statusText)
 		);
 	}
 }
