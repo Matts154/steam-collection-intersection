@@ -1,72 +1,111 @@
+import { getPlayerSummaries, resolveVanityName, getFriendList, getOwnedGames } from "../helpers/SteamAPI";
+import dispatcher from "../dispatcher.js";
 import { EventEmitter } from "events";
-import * from "../helpers/FetchHelpers";
+import { USER as ACTION } from "../constant/ActionConstants";
+import { USER as EVENT } from "../constant/StoreConstants";
 
 class UserStore extends EventEmitter {
 	constructor() {
-		this.users = {};
+		super();
+		this.user = {};
 	}
 
-	// Example Vanity URL: http://steamcommunity.com/id/bored154/
-	// Example Normal URL: http://steamcommunity.com/profiles/76561197977769301/
-	function addUserBySteamURL(steamurl) {
-		let steamIdentifier = steamurl;
-		if (steamIdentifier.includes("://steamcommunity.com")) {
-			var re = /(id|profile)\/(.+)\/$/
-			steamIdentifier = re.exec(steamurl)[2]
+	getUser() {
+		return this.user;
+	}
+
+	clearStore() {
+		this.user = {};
+		this.emit(EVENT.DONE);
+	}
+
+	resolveUserByVanity(vanityName) {
+		this.emit(EVENT.FETCHING);
+		Promise.resolve(resolveVanityName(vanityName))
+			.then(data => this.resolveUserSummary(data.response.steamid))
+			.then(() => this.resolveFriendsList())
+			.then(() => this.resolveOwnedGames())
+			.then(() => this.emit(EVENT.STORE_CHANGED))
+			.then(() => this.emit(EVENT.DONE))
+		    .catch((error) => {
+		 	    console.error("Error getting user (vanity):", error);
+			    this.emit(EVENT.ERROR);
+		    });
+	}
+
+	resolveUserById(steamid) {
+		this.emit(EVENT.FETCHING);
+		Promise.resolve(this.resolveUserSummary(steamid))
+			.then(() => this.resolveFriendsList())
+			.then(() => this.resolveOwnedGames())
+			.then(() => this.emit(EVENT.STORE_CHANGED))
+			.then(() => this.emit(EVENT.DONE))
+			.catch((error) => {
+			   console.error("Error getting user (id):", error);
+			   this.emit(EVENT.ERROR);
+		   });
+	}
+
+	resolveUserSummary(steamid) {
+		return getPlayerSummaries(steamid)
+			.then(data => this.user = data.response.players[0])
+	}
+
+	resolveFriendsList() {
+		return getFriendList(this.user.steamid)
+			.then(data => this.user.friends = data.response.players)
+	}
+
+	resolveOwnedGames() {
+			return getOwnedGames(this.user.steamid)
+			.then(data => this.user.games = data.response.games)
+	}
+
+	resolveFriendsGames(steamid) {
+		const index = this.user.friends.findIndex(f => f.steamid === steamid);
+		let friend = index < 0 ? null : this.user.friends[index];
+
+		if (!friend) {
+			console.error("Friend not found:", steamid)
+			this.emit(EVENT.ERROR);
+			return;
 		}
 
-		dispatcher.dispatch({
-			type: Constants.USER.FETCHING,
-		});
-
-		if(Number.parseInteger(steamIdentifier)) {
-			fetchUserSummaries(steamIdentifier);
+		if (!friend.games) {
+			this.emit(EVENT.FETCHING);
+			Promise.resolve(getOwnedGames(steamid))
+				.then(data => friend.games = data.response.games)
+				.then(() => this.emit(EVENT.STORE_CHANGED))
+				.then(() => this.emit(EVENT.DONE));
 		} else {
-			resolveVanityName(steamIdentifier);
+			this.emit(EVENT.DONE)
 		}
-
 	}
 
-	function resolveVanityName(steamName) {
-		fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/ResolveVanityURL/v0001/?vanityurl=${steamName}`)
-		.then(this.checkStatus)
-		.then(this.getJSON)
-		.then(data => fetchUserSummaries(data.response.steamid))
-		.catch(error => dispatcher.dispatch({
-			type: Constants.USER.ERROR,
-			error
-		}));
-	}
-
-	function addFriends(steamid) {
-		fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/GetFriendList/v0001/?steamid=${steamid}&relationship=friend`)
-		.then(this.checkStatus)
-		.then(this.getJSON)
-		.then(data => data.friendslist.friends.map(friend => friend.steamid))
-		.then(steamids => fetchUserSummaries(steamids))
-		.catch(error => dispatcher.dispatch({
-			type: Constants.USER.ERROR,
-			error
-		}));
-	}
-
-	function fetchUserSummaries(users) {
-		fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/GetPlayerSummaries/v0002/?steamids=${users.toString()}`)
-		.then(this.checkStatus)
-		.then(this.getJSON)
-		.then(data => dispatcher.dispatch({
-			type: Constants.USER.RECEIVED,
-			data: data.response.players
-		})
-		.catch(error => dispatcher.dispatch({
-			type: Constants.USER.ERROR,
-			error
-		}));
+	handleEvent({ type, data }) {
+		console.log("UserStore got action type:", type);
+		switch(type) {
+			case ACTION.ADD_BY.VANITY:
+				this.resolveUserByVanity(data);
+				break;
+			case ACTION.ADD_BY.ID:
+				this.resolveUserById(data);
+				break;
+			case ACTION.ADD_FRIENDS_GAMES:
+				this.resolveFriendsGames(data);
+				break;
+			default:
+				console.warn("Unhandled event in UserStore:", type);
+				break;
+		}
 	}
 
 }
 
-let store = new UserStore;
-store.on()
+const store = new UserStore();
+
+dispatcher.register(store.handleEvent.bind(store));
+
+window.store = store;
 
 export default store;
