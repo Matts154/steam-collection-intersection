@@ -1,18 +1,21 @@
 import keyMirror from 'key-mirror-nested';
+import * as options from "./KeyMirrorOptions.js";
 
-const constants = {
+const keys = keyMirror({
 	USER: {
 		ADD_BY: {
 			VANITY: null,
 			ID: null
 		},
+		ADD_FRIENDS_GAMES: null,
 		CLEAR: null
 	},
-	GAME: {
+	SELECTED_FRIENDS: {
 		ADD: null,
+		REMOVE: null,
 		CLEAR: null
 	}
-}
+}, options);
 
-
-export default keyMirror(constants);
+export let USER = keys.USER;
+export let SELECTED_FRIENDS = keys.SELECTED_FRIENDS;
