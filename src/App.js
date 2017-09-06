@@ -1,156 +1,118 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 
 import FriendsList from "./FriendsList";
 import GameList from "./GameList";
+
+import { USER, SELECTED_FRIENDS } from "./constant/StoreConstants";
+import { addUserBySteamURL, addFriendsGames } from "./action/UserActions";
+import UserStore from "./store/UserStore";
+
+import { remove as removeFriend,
+         clear as clearFriends
+       } from "./action/SelectedFriendsActions";
+
+import SelectedFriendsStore from "./store/SelectedFriendsStore"
+
+import LoadingSpinner from "./components/LoadingSpinner";
 
 import './App.css';
 
 class App extends Component {
     constructor() {
         super();
+
         this.state = {
-            steamid: null,
             user: {},
-            games: [],
-            friends: [],
-            selectedFriends: []
+            selectedFriends: [],
+            sharedGames: [],
+            loading: false
         };
-        this.delay = null;
+
+        this.updateState = this.updateState.bind(this);
+        this.toggleLoadingOn = this.toggleLoadingOn.bind(this);
+        this.toggleLoadingOff = this.toggleLoadingOff.bind(this);
     }
 
-    checkStatus(response) {
-        if (response.status === 200) {
-            return Promise.resolve(response);
+    componentWillMount() {
+        UserStore.on(USER.FETCHING, this.toggleLoadingOn);
+        UserStore.on(USER.DONE, this.toggleLoadingOff);
+        UserStore.on(USER.ERROR, this.toggleLoadingOff);
+
+        UserStore.on(USER.DONE, this.updateState);
+        SelectedFriendsStore.on(SELECTED_FRIENDS.REMOVED, this.updateState);
+        SelectedFriendsStore.on(SELECTED_FRIENDS.ADDED, this.updateState);
+    }
+
+    componentWillDismount() {
+        UserStore.removeListener(USER.FETCHING, this.toggleLoadingOn);
+        UserStore.removeListener(USER.DONE, this.toggleLoadingOff);
+        UserStore.removeListener(USER.ERROR, this.toggleLoadingOff);
+
+        UserStore.removeListener(USER.DONE, this.updateState);
+        SelectedFriendsStore.removeListener(SELECTED_FRIENDS.ADDED, this.updateState);
+        SelectedFriendsStore.removeListener(SELECTED_FRIENDS.REMOVED, this.updateState)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log("New state", this.state);
+    }
+
+    updateState() {
+        const user = UserStore.getUser();
+        const selectedFriends = SelectedFriendsStore.getFriends();
+        var sharedGames = [];
+
+        if (selectedFriends.length > 0) {
+            var filteredFriends = this.state.user.friends.filter(friend => selectedFriends.includes(friend.steamid));
+            sharedGames = this.findSharedGames(filteredFriends, this.state.user.games)
+        }
+
+        const newState = Object.assign({}, this.state, {user, selectedFriends, sharedGames});
+
+        this.setState(newState);
+    }
+
+    toggleLoadingOn() {
+        this.setState(
+            Object.assign({}, this.state, {loading: true})
+        );
+    }
+
+    toggleLoadingOff() {
+        this.setState(
+            Object.assign({}, this.state, {loading: false})
+        );
+    }
+
+    handleUserSubmit(form) {
+        const profileURL = form.children["profile_url"].value;
+
+        if(profileURL) {
+            clearFriends();
+            addUserBySteamURL(profileURL);
+        }
+    }
+
+    handleFriendSelection(steamid, checked) {
+        if(checked){
+            addFriendsGames(steamid);
         } else {
-            return Promise.reject(
-                new Error(response.statusText)
-            );
+            removeFriend(steamid);
         }
     }
 
-    getJSON(response) {
-        return response.json()
-    }
-
-    handleFriendSelection(id, checked) {
-        let friend = this.state.friends.find((f) => { return f.steamid === id });
-        let selectedFriends = this.state.selectedFriends.slice();
-        let sharedGames = [];
-
-        if(checked) { // Adding to selectedFriends
-            const options = {
-                method: 'GET',
-                mode: 'cors'
-            };
-            const url = `https://steam-api-proxy.herokuapp.com/IPlayerService/GetOwnedGames/v0001/?steamid=${friend.steamid}&include_appinfo=1&include_played_free_games=1&format=json`
-            fetch(url, options)
-                .then(this.checkStatus)
-                .then(this.getJSON)
-                .then(function(data) {
-                    friend.games = data.response.games;
-                    selectedFriends.push(friend);
-
-                    sharedGames = this.state.games.filter(function(game) {
-                        return selectedFriends.every(function(friend) {
-                            return friend.games.some(function(friendsGame){
-                                return game.appid === friendsGame.appid;
-                            });
-                        });
-                    });
-
-                    this.setState(
-                        Object.assign(this.state, {
-                            sharedGames: sharedGames,
-                            selectedFriends: selectedFriends
-                        })
-                    );
-                }.bind(this))
-                .catch(function(err) {
-                    console.error(err);
-                });
-
-        } else { // Removing from selectedFriends
-            selectedFriends = selectedFriends.filter(function(f) {
-                return friend.steamid !== f.steamid;
-            });
-
-            if (selectedFriends.length === 0) {
-                sharedGames = [];
-            } else {
-                sharedGames = this.state.games.filter(function(game) {
-                    return selectedFriends.every(function(friend) {
-                        return friend.games.some(function(friendsGame){
-                            return game.appid === friendsGame.appid;
-                        });
-                    });
-                });
-            }
-
-            this.setState(Object.assign(this.state, {
-                sharedGames: sharedGames,
-                selectedFriends: selectedFriends
-            }))
-        }
-
-    }
-
-    getGameList(steamid) {
-
-    }
-
-    findSharedGames(selectedFriends, usersGames) {
-        if (!selectedFriends || !usersGames) {
+    findSharedGames(friends, games) {
+        if (friends.length === 0 || games.length === 0) {
             return [];
         }
 
-        return usersGames.find(function(game) {
-            return selectedFriends.every(function(friend) {
-                return friend.games.includes(game);
+        return games.filter(function(game) {
+            return friends.every(function(friend) {
+                return friend.games.some(function(friendsGame){
+                    return game.appid === friendsGame.appid;
+                });
             });
         });
-    }
-
-    resolveUserInfo(event) {
-        const eventVal = event.target.value;
-        const options = {
-            method: 'GET'
-        };
-
-        clearTimeout(this.delay);
-        this.delay = setTimeout(() => {
-            // Get the steamid based on their username
-            fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/ResolveVanityURL/v0001/?vanityurl=${eventVal}`, options)
-                .then(this.checkStatus)
-                .then(this.getJSON)
-                .then(data => this.setState(Object.assign({}, this.state, {steamid: data.response.steamid})))
-                .then(() => { return fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/GetFriendList/v0001/?steamid=${this.state.steamid}&relationship=friend`, options) })
-                .then(this.checkStatus)
-                .then(this.getJSON)
-                .then(data => data.friendslist.friends.map(friend => friend.steamid))
-                .then(friendIDs => { return fetch(`https://steam-api-proxy.herokuapp.com/ISteamUser/GetPlayerSummaries/v0002/?steamids=${friendIDs.toString()}${"," + this.state.steamid}`, options) })
-                .then(this.checkStatus)
-                .then(this.getJSON)
-                .then((data) => {
-                    const user = _.remove(data.response.players, user => {
-                        return user.steamid === this.state.steamid;
-                    })[0];
-
-                    const friends = data.response.players;
-                    // Get the users owned games
-                    fetch(`https://steam-api-proxy.herokuapp.com/IPlayerService/GetOwnedGames/v0001/?steamid=${this.state.steamid}&include_appinfo=1&include_played_free_games=1`, options)
-                        .then(this.checkStatus)
-                        .then(this.getJSON)
-                        .then((data) => {
-                            const games = data.response.games;
-                            this.setState(Object.assign(this.state, {user, friends, games}));
-                    });
-
-                })
-                .catch(function(err){
-                    console.error(err);
-                });
-        }, 1000);
     }
 
     render() {
@@ -158,12 +120,17 @@ class App extends Component {
 
         return (
             <div className="app-container">
+                <LoadingSpinner show={this.state.loading}/>
                 <div id="user">
                     <img style={userImageStyle} src={this.state.user.avatarmedium || ""} alt={this.state.user.personaname || ""} title={this.state.user.personaname || ""}/>
-                    <input onChange={this.resolveUserInfo.bind(this)} placeholder="Username"/>
+                    <form onSubmit={ (e) => {e.preventDefault(); this.handleUserSubmit(e.target);} }>
+                        <input id="profile_url" placeholder="Profile URL"/>
+                        <button type="submit" className={"btn btn-success btn-submit" + (this.state.loading ? " disabled" : "")} disabled={this.state.loading ? "disabled" : ""}>Submit</button>
+                    </form>
                 </div>
                 <FriendsList
-                    friends={this.state.friends}
+                    friends={this.state.user.friends}
+                    selected={this.state.selectedFriends}
                     handleClick={this.handleFriendSelection.bind(this)}
                 />
                 <GameList
