@@ -17,7 +17,9 @@ class GameList extends Component {
 	}
 
 	render() {
-		if (!this.props.games) { return (<div></div>); }
+		if (!this.props.games || this.props.games.length === 0) {
+			 return null;
+		 }
 
 		let gameComponents = this.props.games.map((game, i) => {
 			return (<Game key={game.appid} game={game}/>);
@@ -25,7 +27,7 @@ class GameList extends Component {
 
 		return (
 			<div id="games-list">
-				<p>Number of games: {this.props.games.length}</p>
+				<p className="num-games">Number of games: {this.props.games.length}</p>
 				<Pagination id="games">
 					{gameComponents.slice((this.state.page-1) * this.state.pageSize, this.state.page * this.state.pageSize)}
 				</Pagination>

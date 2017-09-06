@@ -3,8 +3,7 @@ body {
 }
 
 .loading {
-  animation: spin infinite 10s linear;
-  height: 80px;
+  animation: spin infinite 0.75s linear;
 }
 
 @keyframes spin {
@@ -21,13 +20,15 @@ body {
 }
 
 #user {
-    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right:auto;
     padding: 20px 0px;
     background-color: rgba(84, 133, 183, 0.2);
-    text-align: center;
     /* flexbox */
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 #user img {
@@ -37,16 +38,22 @@ body {
     height: 64px;
 }
 
-#user input {
-    margin-left: auto;
-    margin-right: auto;
+#user form {
+    display: flex;
+
 }
 
+#user input {
+    color: #000;
+}
+
+
 #friends-list {
-    background-color: rgba(84, 133, 183, 0.2);
-    padding: 20px;
-    margin-bottom: 10px;
     width:100%;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding: 20px;
+    background-color: rgba(84, 133, 183, 0.2);
 }
 
 .friends-wrapper {
@@ -61,10 +68,13 @@ body {
 }
 
 label {
+}
+
+.friend {
     padding: 8px;
 }
 
-label img {
+.friend img {
     width: 64px;
     height: 64px;
 }
@@ -122,14 +132,27 @@ label img {
 .game img {
     width: 184px;
     flex-shrink: 0;
-    margin: 0px 20px 0px 5px;
+    margin: 0px 25px 0px 5px;
 }
 
-#games-list p {
+
+.game-title {
+    color: #DDD;
+    margin: 0px;
+    padding: 0px;
+}
+
+.num-games {
     color: #56707f;
 }
 
 .btn-play {
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.btn-submit {
     font-weight: bold;
 }
 
@@ -178,7 +201,7 @@ label img {
        .game-title {
            display: block;
            text-align: center;
-           margin-top: 20px;
+           margin-top: 10px;
        }
 
        .game img {
@@ -220,7 +243,7 @@ label img {
     .game-title {
         display: block;
         text-align: center;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     .game img {
@@ -235,7 +258,12 @@ label img {
     }
 
     .game-title {
+        margin-top: 10px;
         text-align: center;
+    }
+
+    .game img {
+        margin: 5px 0px 0px 0px;
     }
 
     .game-container {

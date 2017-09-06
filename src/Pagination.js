@@ -30,7 +30,7 @@ class Pagination extends Component {
 		const num = this.props.children.length;
 		const pageNumbers = Array(Math.ceil(num / numPerPage)).fill(null).map((_, index) => {
 			const page = index + 1;
-			return (<a className="page-number" value={page} onClick={() => this.setState(Object.assign({}, this.state, {page}))}>{page}</a>);
+			return (<a key={index} className="page-number" onClick={() => this.setState(Object.assign({}, this.state, {page}))}>{page}</a>);
 		});
 
 		return (

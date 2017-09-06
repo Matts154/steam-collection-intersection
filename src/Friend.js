@@ -1,34 +1,20 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 
 class Friend extends Component {
-	constructor(props) {
-		super();
-		this.state = {
-			checked: false
-		}
-	}
+	toggle(event) {
+		const { steamid } = this.props.friend;
+		const selected = this.props.selected;
 
-	toggleCheck(event) {
-		this.setState(
-			Object.assign(this.state, {
-				checked: event.target.checked
-			})
-		)
-
-		this.props.handleClick(event);
+		this.props.handleClick(steamid, !selected);
 	}
 
 	render() {
 		const { steamid, avatarfull, personaname } = this.props.friend;
+		const selected = this.props.selected;
 
 		return (
-			<div className="friend">
-				<input id={steamid} onChange={this.toggleCheck.bind(this)} type="checkbox" style={{display: "none"}} />
-				<label htmlFor={steamid} className={this.state.checked ? "checked" : ""}>
-					<img src={avatarfull} alt={personaname} title={personaname} />
-					<h3 className="hidden">{personaname}</h3>
-				</label>
+			<div id={steamid} className={"friend" + (selected ? " checked" : "")} onClick={this.toggle.bind(this)}>
+				<img src={avatarfull} alt={personaname} title={personaname} />
 			</div>
 		);
 	}
