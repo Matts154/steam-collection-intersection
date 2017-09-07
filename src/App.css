@@ -45,6 +45,10 @@ body {
 
 #user input {
     color: #000;
+    padding-left: 10px;
+    border: 0px;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
 }
 
 
@@ -153,6 +157,8 @@ label {
 }
 
 .btn-submit {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
     font-weight: bold;
 }
 
