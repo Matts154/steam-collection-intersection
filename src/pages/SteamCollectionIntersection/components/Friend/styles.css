@@ -1,0 +1,12 @@
+.friend {
+    padding: 8px;
+}
+
+.friend img {
+    width: 64px;
+    height: 64px;
+}
+
+.checked {
+    background-color: rgba(117, 204, 255, 0.3);
+}

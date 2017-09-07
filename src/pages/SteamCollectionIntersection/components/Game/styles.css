@@ -1,0 +1,50 @@
+.game {
+    display: block;
+    color: #56707f;
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+.game-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(84, 133, 183, 0.2);
+    padding: 8px;
+    height:100%;
+}
+
+.game-container:hover {
+    background-color: rgba(117, 204, 255, 0.3);
+}
+
+.game:nth-child(odd) .game-container {
+    margin-right: 10px;
+}
+
+@media (max-width:766px) {
+
+    .game {
+        display: block;
+        width: 100%;
+    }
+
+    .game-container {
+        flex-flow: column nowrap;
+        justify-content: center;
+    }
+
+    .game:nth-child(odd) .game-container {
+        margin-right: 0px;
+    }
+
+}
+
+@media (min-width:767px) and (max-width:991px) {
+
+    .game-container {
+        flex-flow: column nowrap;
+        justify-content: center;
+    }
+}

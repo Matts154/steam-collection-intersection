@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Game from "../Game";
 import Pagination from "../Pagination";
+import "./styles.css";
 
 class GameList extends Component {
 	render() {

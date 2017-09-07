@@ -1,0 +1,31 @@
+.game-title {
+    margin: 0px;
+    padding: 0px;
+    width:100%;
+    color: #DDD;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: normal;
+    font-family: "Motiva Sans", Sans-serif;
+    font-weight: 300;
+}
+
+
+@media (max-width:766px) {
+
+    .game-title {
+        display: block;
+		margin-top: 10px;
+        text-align: center;
+    }
+
+}
+
+@media (min-width:767px) and (max-width:991px) {
+
+    .game-title {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+}
