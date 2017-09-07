@@ -127,6 +127,4 @@ const store = new UserStore();
 
 dispatcher.register(store.handleEvent.bind(store));
 
-window.store = store;
-
 export default store;
