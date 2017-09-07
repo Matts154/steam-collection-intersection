@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import "./styles.css";
 
 class Friend extends Component {
 	toggle(event) {
@@ -13,7 +14,9 @@ class Friend extends Component {
 		const selected = this.props.selected;
 
 		return (
-			<div id={steamid} className={"friend" + (selected ? " checked" : "")} onClick={this.toggle.bind(this)}>
+			<div id={steamid}
+				className={"friend" + (selected ? " checked" : "")}
+				onClick={this.toggle.bind(this)}>
 				<img src={avatarfull} alt={personaname} title={personaname} />
 			</div>
 		);

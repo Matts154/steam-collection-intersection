@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
-
 import Friend from "../Friend";
+import "./styles.css";
 
 class FriendsList extends Component {
 	render() {

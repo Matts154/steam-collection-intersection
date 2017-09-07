@@ -2,20 +2,9 @@ import React, { Component } from 'react';
 
 import Game from "../Game";
 import Pagination from "../Pagination";
+import "./styles.css";
 
 class GameList extends Component {
-	constructor() {
-		super();
-		this.state = {
-			pageSize: 3000,
-			page: 1,
-		}
-	}
-
-	handleClick(event){
-
-	}
-
 	render() {
 		if (!this.props.games || this.props.games.length === 0) {
 			 return null;
@@ -29,7 +18,7 @@ class GameList extends Component {
 			<div id="games-list">
 				<p className="num-games">Number of games: {this.props.games.length}</p>
 				<Pagination id="games">
-					{gameComponents.slice((this.state.page-1) * this.state.pageSize, this.state.page * this.state.pageSize)}
+					{gameComponents}
 				</Pagination>
 			</div>
 		);

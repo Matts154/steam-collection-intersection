@@ -1,0 +1,26 @@
+#games-list {
+    display: block;
+    padding: 0px;
+    text-align: left;
+    width: 100%;
+}
+
+#games {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+.num-games {
+    color: #56707f;
+}
+
+@media (max-width:766px) {
+
+    #games {
+        width: 100%;
+        display: block;
+    }
+
+}
