@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 
-import FriendsList from "./FriendsList";
-import GameList from "./GameList";
-
-import { USER } from "./constant/StoreConstants";
-import { addUserBySteamURL, addSelectedFriend, removeSelectedFriend, clearStore } from "./action/UserActions";
-import UserStore from "./store/UserStore";
-
+import FriendsList from "./components/FriendsList";
+import GameList from "./components/GameList";
 import LoadingSpinner from "./components/LoadingSpinner";
 
-import './App.css';
+import { addUserBySteamURL,
+         addSelectedFriend,
+         removeSelectedFriend,
+         clearStore } from "./stores/User/actions";
 
-class App extends Component {
+import UserStore from "./stores/User/store";
+import { EVENT } from "./stores/User/constants";
+
+
+import './styles.css';
+
+class SteamCollectionIntersection extends Component {
     constructor() {
         super();
 
@@ -28,19 +32,19 @@ class App extends Component {
     }
 
     componentWillMount() {
-        UserStore.on(USER.FETCHING, this.toggleLoadingOn);
-        UserStore.on(USER.DONE, this.toggleLoadingOff);
-        UserStore.on(USER.ERROR, this.toggleLoadingOff);
+        UserStore.on(EVENT.FETCHING, this.toggleLoadingOn);
+        UserStore.on(EVENT.DONE, this.toggleLoadingOff);
+        UserStore.on(EVENT.ERROR, this.toggleLoadingOff);
 
-        UserStore.on(USER.DONE, this.updateState);
+        UserStore.on(EVENT.DONE, this.updateState);
     }
 
     componentWillDismount() {
-        UserStore.removeListener(USER.FETCHING, this.toggleLoadingOn);
-        UserStore.removeListener(USER.DONE, this.toggleLoadingOff);
-        UserStore.removeListener(USER.ERROR, this.toggleLoadingOff);
+        UserStore.removeListener(EVENT.FETCHING, this.toggleLoadingOn);
+        UserStore.removeListener(EVENT.DONE, this.toggleLoadingOff);
+        UserStore.removeListener(EVENT.ERROR, this.toggleLoadingOff);
 
-        UserStore.removeListener(USER.DONE, this.updateState);
+        UserStore.removeListener(EVENT.DONE, this.updateState);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -132,4 +136,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default SteamCollectionIntersection;

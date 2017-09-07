@@ -1,5 +1,5 @@
-import dispatcher from "../dispatcher.js";
-import { USER as ACTION } from "../constant/ActionConstants";
+import dispatcher from "../helpers/dispatcher.js";
+import { ACTION } from "./constants";
 
 function isInteger(num) {
 	return !isNaN(parseInt(num, 10));

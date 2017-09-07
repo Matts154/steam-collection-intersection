@@ -1,8 +1,7 @@
 import { getPlayerSummaries, resolveVanityName, getFriendList, getOwnedGames } from "../helpers/SteamAPI";
-import dispatcher from "../dispatcher.js";
+import dispatcher from "../helpers/dispatcher.js";
 import { EventEmitter } from "events";
-import { USER as ACTION } from "../constant/ActionConstants";
-import { USER as EVENT } from "../constant/StoreConstants";
+import { ACTION, EVENT } from "./constants";
 
 class UserStore extends EventEmitter {
 	constructor() {

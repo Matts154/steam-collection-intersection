@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import SteamCollectionIntersection from './pages/SteamCollectionIntersection';
 import './index.css';
 
 ReactDOM.render(
-  <App />,
+  <SteamCollectionIntersection />,
   document.getElementById('root')
 );

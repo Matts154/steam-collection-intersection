@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import Friend from "./Friend";
+import Friend from "../Friend";
 
 class FriendsList extends Component {
 	render() {
