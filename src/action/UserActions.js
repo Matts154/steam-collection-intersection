@@ -1,5 +1,9 @@
 import dispatcher from "../dispatcher.js";
-import { USER } from "../constant/ActionConstants";
+import { USER as ACTION } from "../constant/ActionConstants";
+
+function isInteger(num) {
+	return !isNaN(parseInt(num, 10));
+}
 
 // Example Vanity URL: http://steamcommunity.com/id/bored154/
 // Example Normal URL: http://steamcommunity.com/profiles/76561197977769301/
@@ -11,25 +15,43 @@ export function addUserBySteamURL(steamIdentifier) {
 
 	if(parseInt(steamIdentifier, 10)) {
 		dispatcher.dispatch({
-			type: USER.ADD_BY.ID,
+			type: ACTION.ADD_BY.ID,
 			data: steamIdentifier
 		});
 	} else {
 		dispatcher.dispatch({
-			type: USER.ADD_BY.VANITY,
+			type: ACTION.ADD_BY.VANITY,
 			data: steamIdentifier
 		});
 	}
 }
 
-export function addFriendsGames(steamid) {
-	if (!parseInt(steamid, 10)) {
+export function addSelectedFriend(steamid) {
+	if (!isInteger(steamid)) {
 		console.error("addUserGames received non-int arg:", steamid);
 		return;
 	}
 
 	dispatcher.dispatch({
-		type: USER.ADD_FRIENDS_GAMES,
+		type: ACTION.ADD_SELECTED_FRIEND,
 		data: steamid
+	});
+}
+
+export function removeSelectedFriend(steamid) {
+	if (!isInteger(steamid)) {
+		console.error("removeFriend received non-int arg:", steamid);
+		return;
+	}
+
+	dispatcher.dispatch({
+		type: ACTION.REMOVE_SELECTED_FRIEND,
+		data: steamid
+	});
+}
+
+export function clearStore() {
+	dispatcher.dispatch({
+		type: ACTION.CLEAR_STORE,
 	});
 }

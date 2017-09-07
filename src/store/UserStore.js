@@ -7,15 +7,26 @@ import { USER as EVENT } from "../constant/StoreConstants";
 class UserStore extends EventEmitter {
 	constructor() {
 		super();
-		this.user = {};
+		this.store = {
+			user: {},
+			selectedFriends: [],
+		}
+	}
+
+	getStore() {
+		return this.store;
 	}
 
 	getUser() {
-		return this.user;
+		return this.store.user;
+	}
+
+	getSelectedFriends() {
+		return this.store.selectedFriends;
 	}
 
 	clearStore() {
-		this.user = {};
+		this.store = {};
 		this.emit(EVENT.DONE);
 	}
 
@@ -48,28 +59,30 @@ class UserStore extends EventEmitter {
 
 	resolveUserSummary(steamid) {
 		return getPlayerSummaries(steamid)
-			.then(data => this.user = data.response.players[0])
+			.then(data => this.store.user = data.response.players[0])
 	}
 
 	resolveFriendsList() {
-		return getFriendList(this.user.steamid)
-			.then(data => this.user.friends = data.response.players)
+		return getFriendList(this.store.user.steamid)
+			.then(data => this.store.user.friends = data.response.players)
 	}
 
 	resolveOwnedGames() {
-			return getOwnedGames(this.user.steamid)
-			.then(data => this.user.games = data.response.games)
+			return getOwnedGames(this.store.user.steamid)
+			.then(data => this.store.user.games = data.response.games)
 	}
 
-	resolveFriendsGames(steamid) {
-		const index = this.user.friends.findIndex(f => f.steamid === steamid);
-		let friend = index < 0 ? null : this.user.friends[index];
+	addSelectedFriend(steamid) {
+		const index = this.store.user.friends.findIndex(f => f.steamid === steamid);
+		let friend = index < 0 ? null : this.store.user.friends[index];
 
 		if (!friend) {
 			console.error("Friend not found:", steamid)
 			this.emit(EVENT.ERROR);
 			return;
 		}
+
+		this.store.selectedFriends.push(steamid);
 
 		if (!friend.games) {
 			this.emit(EVENT.FETCHING);
@@ -82,6 +95,11 @@ class UserStore extends EventEmitter {
 		}
 	}
 
+	removeSelectedFriend(steamid) {
+		this.store.selectedFriends = this.store.selectedFriends.filter(id => id !== steamid);
+		this.emit(EVENT.DONE);
+	}
+
 	handleEvent({ type, data }) {
 		console.log("UserStore got action type:", type);
 		switch(type) {
@@ -91,8 +109,11 @@ class UserStore extends EventEmitter {
 			case ACTION.ADD_BY.ID:
 				this.resolveUserById(data);
 				break;
-			case ACTION.ADD_FRIENDS_GAMES:
-				this.resolveFriendsGames(data);
+			case ACTION.ADD_SELECTED_FRIEND:
+				this.addSelectedFriend(data);
+				break;
+			case ACTION.REMOVE_SELECTED_FRIEND:
+				this.removeSelectedFriend(data);
 				break;
 			default:
 				console.warn("Unhandled event in UserStore:", type);

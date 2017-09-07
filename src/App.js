@@ -3,15 +3,9 @@ import React, { Component } from 'react';
 import FriendsList from "./FriendsList";
 import GameList from "./GameList";
 
-import { USER, SELECTED_FRIENDS } from "./constant/StoreConstants";
-import { addUserBySteamURL, addFriendsGames } from "./action/UserActions";
+import { USER } from "./constant/StoreConstants";
+import { addUserBySteamURL, addSelectedFriend, removeSelectedFriend, clearStore } from "./action/UserActions";
 import UserStore from "./store/UserStore";
-
-import { remove as removeFriend,
-         clear as clearFriends
-       } from "./action/SelectedFriendsActions";
-
-import SelectedFriendsStore from "./store/SelectedFriendsStore"
 
 import LoadingSpinner from "./components/LoadingSpinner";
 
@@ -39,8 +33,6 @@ class App extends Component {
         UserStore.on(USER.ERROR, this.toggleLoadingOff);
 
         UserStore.on(USER.DONE, this.updateState);
-        SelectedFriendsStore.on(SELECTED_FRIENDS.REMOVED, this.updateState);
-        SelectedFriendsStore.on(SELECTED_FRIENDS.ADDED, this.updateState);
     }
 
     componentWillDismount() {
@@ -49,8 +41,6 @@ class App extends Component {
         UserStore.removeListener(USER.ERROR, this.toggleLoadingOff);
 
         UserStore.removeListener(USER.DONE, this.updateState);
-        SelectedFriendsStore.removeListener(SELECTED_FRIENDS.ADDED, this.updateState);
-        SelectedFriendsStore.removeListener(SELECTED_FRIENDS.REMOVED, this.updateState)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -58,8 +48,9 @@ class App extends Component {
     }
 
     updateState() {
-        const user = UserStore.getUser();
-        const selectedFriends = SelectedFriendsStore.getFriends();
+        const { user, selectedFriends } = UserStore.getStore();
+        // const user = UserStore.getUser();
+        // const selectedFriends = SelectedFriendsStore.getFriends();
         var sharedGames = [];
 
         if (selectedFriends.length > 0) {
@@ -88,16 +79,16 @@ class App extends Component {
         const profileURL = form.children["profile_url"].value;
 
         if(profileURL) {
-            clearFriends();
+            clearStore();
             addUserBySteamURL(profileURL);
         }
     }
 
     handleFriendSelection(steamid, checked) {
         if(checked){
-            addFriendsGames(steamid);
+            addSelectedFriend(steamid);
         } else {
-            removeFriend(steamid);
+            removeSelectedFriend(steamid);
         }
     }
 

@@ -8,11 +8,6 @@ let keys = keyMirror({
 		DONE: null,
 		STORE_CHANGED: null,
 		ERROR: null
-	},
-	SELECTED_FRIENDS: {
-		ADDED: null,
-		REMOVED: null,
-		ERROR: null
 	}
 }, options);
 
