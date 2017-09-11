@@ -10,10 +10,6 @@ class Pagination extends Component {
 		};
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		return nextProps.children !== undefined;
-	}
-
 	componentWillUpdate(nextProps, nextState) {
 		if (nextProps.children.length !== this.props.children.length) {
 			this.setState(
