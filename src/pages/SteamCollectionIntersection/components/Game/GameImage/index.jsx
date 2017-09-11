@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import "./styles.css";
 
-class Game extends Component {
+class Game extends PureComponent {
 	render() {
 		const { alt, src } = this.props;
 

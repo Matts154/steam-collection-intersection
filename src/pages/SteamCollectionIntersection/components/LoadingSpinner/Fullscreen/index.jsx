@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import "./styles.css";
 
-class Fullscreen extends Component {
+class Fullscreen extends PureComponent {
 	render() {
 		return (
 			<div className="fullscreen">

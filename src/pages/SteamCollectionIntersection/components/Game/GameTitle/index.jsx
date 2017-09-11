@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import "./styles.css";
 
-class GameTitle extends Component {
+class GameTitle extends PureComponent {
 	render() {
 		return (
 			<p className="game-title">{this.props.title}</p>

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import "./styles.css";
 
-class Spinner extends Component {
+class Spinner extends PureComponent {
 	render() {
 		return (
 			<div className="spinner">
