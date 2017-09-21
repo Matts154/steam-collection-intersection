@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Game from "../Game";
-import Pagination from "../Pagination";
+import FauxInfiniteScroll from "../FauxInfiniteScroll";
 import "./styles.css";
 
 class GameList extends Component {
@@ -17,9 +17,9 @@ class GameList extends Component {
 		return (
 			<div id="games-list">
 				<p className="num-games">Number of games: {this.props.games.length}</p>
-				<Pagination id="games">
+				<FauxInfiniteScroll id="games">
 					{gameComponents}
-				</Pagination>
+				</FauxInfiniteScroll>
 			</div>
 		);
 	}
