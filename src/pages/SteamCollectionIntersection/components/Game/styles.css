@@ -1,8 +1,12 @@
 .game {
+    padding-bottom: 10px;
     display: block;
     color: #56707f;
     width: 50%;
-    margin-bottom: 10px;
+}
+
+.game:nth-child(odd) {
+    padding-right: 10px;
 }
 
 .game-container {
@@ -19,10 +23,6 @@
     background-color: rgba(117, 204, 255, 0.3);
 }
 
-.game:nth-child(odd) .game-container {
-    margin-right: 10px;
-}
-
 @media (max-width:766px) {
 
     .game {
@@ -35,8 +35,8 @@
         justify-content: center;
     }
 
-    .game:nth-child(odd) .game-container {
-        margin-right: 0px;
+    .game:nth-child(odd) {
+        padding-right: 0px;
     }
 
 }
