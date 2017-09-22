@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import ScrollToTop from "../ScrollToTop";
 
-class FauxInfiniteScroll extends Component {
+class FiniteScroll extends Component {
 	constructor() {
 		super();
 
-		const numShown = Math.floor((window.innerHeight / 85) * 2);
-
 		this.state = {
-			numShown
+			numShown: Math.floor((window.innerHeight / 85) * 2)
 		};
 	}
 
@@ -21,13 +19,15 @@ class FauxInfiniteScroll extends Component {
 		document.removeEventListener("scroll", this.incrementNumShown.bind(this))
 	}
 
-	// componentWillUpdate(nextProps, nextState) {
-	// 	if (nextProps.children.length !== this.props.children.length) {
-	// 		this.setState(
-	// 			Object.assign({}, this.state, {page: 1})
-	// 		);
-	// 	}
-	// }
+	componentWillUpdate(nextProps, nextState) {
+		// Reset numShown if children length changes
+		if (nextProps.children.length !== this.props.children.length) {
+			const numShown = Math.floor((window.innerHeight / 85) * 2);
+			this.setState(
+				Object.assign({}, this.state, {numShown})
+			);
+		}
+	}
 
 	incrementNumShown() {
 		const scrollYPos = window.scrollY;
@@ -38,7 +38,7 @@ class FauxInfiniteScroll extends Component {
 		const shouldAddMore = windowHeight + scrollYPos > documentHeight - distFromBottom
 							 && this.state.numShown < this.props.children.length;
 
-		if (shouldAddMore){
+		if (shouldAddMore) {
 			const numShown = this.state.numShown + 1;
 			this.setState(Object.assign({}, this.state, {numShown}));
 		}
@@ -46,12 +46,14 @@ class FauxInfiniteScroll extends Component {
 
 	render() {
 		return (
-			<div className="infinite-scroll" {...this.props} onScroll={this.incrementNumShown.bind(this)}>
-				{this.props.children.slice(0, this.state.numShown)}
+			<div className="infinite-scroll">
 				<ScrollToTop />
+				<div {...this.props}>
+					{this.props.children.slice(0, this.state.numShown)}
+				</div>
 			</div>
 		);
 	}
 }
 
-export default FauxInfiniteScroll;
+export default FiniteScroll;
