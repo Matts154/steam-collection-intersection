@@ -1,0 +1,15 @@
+.scroll-to-top {
+	margin: 20px;
+	padding: 15px 10px 5px 10px;
+	color: #DDD;
+	text-align: center;
+	background-color: rgba(84, 133, 183, 0.2);
+	position:fixed;
+	bottom: 0px;
+	right: 0px;
+}
+.scroll-to-top p {
+	padding-top: 10px;
+	font-family: "Motiva Sans", Sans-serif;
+	font-weight: bold;
+}
