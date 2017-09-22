@@ -3,39 +3,41 @@
 }
 
 .page-number-list {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
     margin: 10px 0px;
+    user-select: none;
 }
 
-.page-number {
+.pagination-nav {
     margin-right: 5px;
     padding: 5px;
     width: 30px;
     color: white;
     font-weight: bold;
     background-color: rgba(84, 133, 183, 0.2);
-    text-decoration: none;
+    text-decoration: none !important;
     list-style: none;
     text-align: center;
     cursor: pointer;
 }
 
-@media (max-width:480px) {
-    /* styles for mobile browsers smaller than 480px; (iPhone) */
+@media (max-width:766px) {
 
-}
+    .page-number-list {
+        justify-content: space-between;
+    }
 
-@media (min-width:480px) and (max-width:766px) {
+    .number {
+        display: none;
+    }
 
-}
-
-@media (min-width:767px) and (max-width:991px) {
-
-}
-
-@media (min-width:992px) and (max-width:1280px) {
-
-}
-
-@media (min-width:1280px) {
+    .arrow {
+        display: block;
+        width: 100px;
+        margin-right: 0px;
+        padding: 10px 5px;
+    }
 
 }
