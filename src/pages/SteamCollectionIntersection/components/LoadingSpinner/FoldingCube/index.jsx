@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import "./styles.css";
 
-class FoldingCube extends Component {
+class FoldingCube extends PureComponent {
 	render() {
 		return (
 			<div className="sk-folding-cube">

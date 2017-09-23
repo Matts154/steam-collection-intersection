@@ -1,4 +1,4 @@
-import dispatcher from "../helpers/dispatcher.js";
+import dispatcher from "../helpers/dispatcher";
 import { ACTION } from "./constants";
 
 function isInteger(num) {
