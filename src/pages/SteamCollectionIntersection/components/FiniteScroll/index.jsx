@@ -8,15 +8,17 @@ class FiniteScroll extends Component {
 		this.state = {
 			numShown: Math.floor((window.innerHeight / 85) * 2)
 		};
+
+		this.incrementNumShown = this.incrementNumShown.bind(this);
 	}
 
 	// https://stackoverflow.com/questions/29725828/update-style-of-a-component-onscroll-in-react-js
-	componentWillMount(nextProps, nextState) {
-		document.addEventListener("scroll", this.incrementNumShown.bind(this))
+	componentDidMount(nextProps, nextState) {
+		window.addEventListener("scroll", this.incrementNumShown)
 	}
 
-	componentWillDismount() {
-		document.removeEventListener("scroll", this.incrementNumShown.bind(this))
+	componentWillUnmount() {
+		window.removeEventListener("scroll", this.incrementNumShown)
 	}
 
 	componentWillUpdate(nextProps, nextState) {

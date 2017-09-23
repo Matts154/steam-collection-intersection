@@ -16,11 +16,16 @@
     color: #56707f;
 }
 
-@media (max-width:766px) {
+/* Adding some extra space at the bottom to support "ScrollToTop" */
+@media (max-width: 425px) {
+    #games {
+        margin-bottom: 50px;
+    }
+}
 
+@media (max-width:766px) {
     #games {
         width: 100%;
         display: block;
     }
-
 }

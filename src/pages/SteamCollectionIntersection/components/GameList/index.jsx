@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import Game from "../Game";
 import Pagination from "../Pagination";
+import FiniteScroll from "../FiniteScroll";
+import VirtualMediaQuery from "../VirtualMediaQuery";
+
 import "./styles.css";
 
 class GameList extends Component {
@@ -17,9 +20,16 @@ class GameList extends Component {
 		return (
 			<div id="games-list">
 				<p className="num-games">Number of games: {this.props.games.length}</p>
-				<Pagination id="games">
-					{gameComponents}
-				</Pagination>
+				<VirtualMediaQuery maxWidth={425}>
+					<FiniteScroll id="games">
+						{gameComponents}
+					</FiniteScroll>
+				</VirtualMediaQuery>
+				<VirtualMediaQuery minWidth={425}>
+					<Pagination id="games">
+						{gameComponents}
+					</Pagination>
+				</VirtualMediaQuery>
 			</div>
 		);
 	}
